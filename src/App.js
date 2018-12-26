@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import Home from './container/Home'
 import SignUp from './container/SignUp'
 import Login from './container/Login'
@@ -10,12 +9,62 @@ import Auth from './module/Auth'
 
 class App extends Component {
     state = {
-        auth: Auth.isUserAuthenticated()
+        auth: Auth.isUserAuthenticated(),
+        userObj:{},
+        friendsList:[],
+        pubkey:"",
+        privkey:""
+
+    }
+    componentDidMount(){
+
+            fetch("http://localhost:3000/users")
+            .then(resp => resp.json())
+            .then(resp =>{
+                let x = resp.filter(user => user.auth_token === Auth.getToken())
+                this.setState({userObj:x[0] })
+            }).then(this.fetchFriends)
+
+
+
+    }
+    fetchFriends = () =>{
+        if(this.state.userObj !== {}){
+            fetch(`http://localhost:3000/users/${this.state.userObj.id}/friendships`)
+            .then(resp => resp.json())
+            .then(friendsList => this.setState({friendsList:friendsList}))
+        }
+
     }
 
+    encryptionHandler = () => {
+        var openpgp = require('openpgp');
+        openpgp.initWorker({ path:'openpgp.worker.js' })
+
+        var options = {
+            userIds: [{ name:'Jon Smith', email:'jon@example.com' }], // multiple user IDs
+            curve: "ed25519",                                         // ECC curve name
+            passphrase: 'super long and hard to guess secret'         // protects the private key
+        };
+        //function to generate PGP Keys
+
+        let genHand = () => {
+            return openpgp.generateKey(options).then(function(key) {
+                var privkey = key.privateKeyArmored;
+                var pubkey = key.publicKeyArmored;
+                var revocationCertificate = key.revocationCertificate;
+                return [pubkey,privkey]
+            }).then(resp => this.setState({
+                                        pubkey: resp[0],
+                                        privkey:resp[1]
+            }))    // protects the private key
+        }
+        genHand()
+    }
 
     createAccount = (user, e) => {
         e.preventDefault()
+        this.encryptionHandler()
         fetch(`http://localhost:3000/users`, {
             method: "POST",
             headers: {"Content-Type":"application/json"},
@@ -25,7 +74,8 @@ class App extends Component {
                     last_name:user.last_name,
                     username:user.username,
                     email:user.email,
-                    password:user.password
+                    password:user.password,
+                    public_key: this.state.pubkey
                 }
 
             })
@@ -33,8 +83,10 @@ class App extends Component {
         .then(res => res.json())
         .then(res => {
             Auth.authenticateToken(res.token);
+            Auth.storeUserInfo(res.user.username, res.user.id);
             this.setState({
                 auth: Auth.isUserAuthenticated(),
+
             })
 
 
@@ -57,6 +109,7 @@ class App extends Component {
         .then(res => res.json())
         .then(res =>{
             Auth.authenticateToken(res.token);
+            Auth.storeUserInfo(res.user.username, res.user.id);
             this.setState({
                 auth: Auth.isUserAuthenticated(),
             })
@@ -75,20 +128,24 @@ class App extends Component {
         })
         .then(res => {
             Auth.deauthenticateToken()
+            Auth.removeUserObj()
             this.setState({
-                auth: Auth.isUserAuthenticated()
+                auth: Auth.isUserAuthenticated(),
+                userObj: {}
             })
         }).catch(err => console.log(err))
 
     }
 
-  render() {
 
+
+  render() {
+    console.log(this.state)
     return (
 
             <div>
                 <Nav handleLogout=  {this.handleLogout} isUserSignIn = {this.state.auth} />
-                <Route exact path = "/" render = {() => <Home />} />
+                <Route exact path = "/" render = {() => <Home userObj = {this.state.userObj} friendsList = {this.state.friendsList}/>} />
                 <Route path = "/signup" render = {() => <SignUp createAccount = {this.createAccount}/>}/ >
                 <Route path = "/login" render = {() => <Login handleLoginSubmit = {this.handleLoginSubmit}/>}/ >
             </div>

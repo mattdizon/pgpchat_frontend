@@ -1,12 +1,11 @@
 import React from 'react'
-import ConversationsList from './ConversationsList';
 import UserSearchForm from './UserSearchForm'
 
 
 class AllChats extends React.Component{
 
     state = {
-        showUserSearchForm: false
+        showUserSearchForm: false,
     }
 
     showUserSearchForm = () =>{
@@ -16,16 +15,18 @@ class AllChats extends React.Component{
         return(
             <div className = "leftChat">
                 <div className = "messageHeader">
-                    <h1>Messages</h1>
-                    <div class="row">
+                    <div className="row">
                         <div className="col-md-6">
-
-                                <button className = "addFriend" onClick = {this.showUserSearchForm}> Add Friend </button>
-                                {this.state.showUserSearchForm && <UserSearchForm/>}
+                            <button className = "addFriend" onClick = {this.showUserSearchForm}> Add Friend </button>
+                            {this.state.showUserSearchForm && <UserSearchForm userObj = {this.props.userObj}/>}
+                            <ul className = "leftMenu">
+                                <li  onClick = {(e) => this.props.showMiddle(e)} value = "0">Home</li>
+                                <li  onClick = {(e) => this.props.showMiddle(e)} value = "1">Friends</li>
+                                <li  onClick = {(e) => this.props.showMiddle(e)} value = "2">Messages</li>
+                            </ul>
                         </div>
 	                </div>
                 </div>
-
             </div>
         )
     }

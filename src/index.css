@@ -13,22 +13,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+html {
+    min-width: 100%;
+    min-height: 100%;
+}
 .homeContainer{
-
-    height: 50%;
-    width: 80%;
     border-color: #000;
     border-style: solid;
     position:relative;
     margin: auto;
     display: flex;
-    margin-top: 80px;
 }
 .leftChat{
     border-color: #00f;
     border-style: solid;
     position: relative;
-    width:40%;
+    width:20%;
     text-align: left;
 }
 .rightChat{
@@ -209,4 +209,22 @@ code {
     width:100%;
     background-color:#f5f5f5;
     text-align: center;
+    margin: auto;
+}
+.leftMenu{
+    margin-top: 25px;
+}
+.middleDiv{
+    border-color: #00f;
+    border-style: solid;
+flex-wrap: wrap;
+
+}
+.messageForm{
+    border-color: #00f;
+    border-style: solid;
+    z-index:5;
+    position: absolute;
+    min-width:350px;
+
 }

@@ -34,10 +34,10 @@ export default class Login extends React.Component{
         </div>
         <div className="clearfix">
             <label className="pull-left checkbox-inline"><input type="checkbox"/> Remember me</label>
-            <a href="#" className="pull-right">Forgot Password?</a>
+            <button className="pull-right">Forgot Password?</button>
         </div>
     </form>
-    <p className="text-center"><a href="#">Create an Account</a></p>
+    <p className="text-center"><button>Create an Account</button></p>
 </div>
         )
     }
