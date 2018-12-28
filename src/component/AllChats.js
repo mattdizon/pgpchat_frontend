@@ -17,13 +17,27 @@ class AllChats extends React.Component{
                 <div className = "messageHeader">
                     <div className="row">
                         <div className="col-md-6">
-                            <button className = "addFriend" onClick = {this.showUserSearchForm}> Add Friend </button>
                             {this.state.showUserSearchForm && <UserSearchForm userObj = {this.props.userObj}/>}
-                            <ul className = "leftMenu">
+                            <table className = "leftMenu">
+                            <tr>
                                 <li  onClick = {(e) => this.props.showMiddle(e)} value = "0">Home</li>
+                                </tr>
+                                <tr>
                                 <li  onClick = {(e) => this.props.showMiddle(e)} value = "1">Friends</li>
-                                <li  onClick = {(e) => this.props.showMiddle(e)} value = "2">Messages</li>
-                            </ul>
+                                </tr>
+                                <tr>
+                                <li  onClick = {(e) => this.props.showMiddle(e)} value = "2">Sent Messages</li>
+                                </tr>
+                                <tr>
+                                <li  onClick = {(e) => this.props.showMiddle(e)} value = "3">Recieved Messages</li>
+                                </tr>
+                                <tr>
+                                    <li  onClick = {(e) => this.props.showMiddle(e)} value = "4"> Decrypt Message</li>
+                                </tr>
+                                <tr>
+                                    <li  onClick = {this.showUserSearchForm}> Add Friend </li>
+                                </tr>
+                            </table>
                         </div>
 	                </div>
                 </div>

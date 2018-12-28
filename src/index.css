@@ -6,34 +6,43 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #A9A9A9;
+  background-color: #F5F5F5;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-html {
-    min-width: 100%;
-    min-height: 100%;
-}
+
 .homeContainer{
     border-color: #000;
     border-style: solid;
     position:relative;
     margin: auto;
     display: flex;
+    height:100%;
 }
 .leftChat{
-    border-color: #00f;
-    border-style: solid;
+
+
     position: relative;
     width:20%;
     text-align: left;
+    background-color: #000;
+    color: #fff;
+    opacity: .8;
+    font-size: 2em;
 }
-.rightChat{
-    margin-left: 80px;
+.leftMenu{
+    text-decoration: none;
+    list-style-type: none;
+    margin-left: 20px;
+    font-family: 'Oswald', sans-serif;
 }
+.leftMenu li{
+    margin-bottom: 25px;
+}
+
 .form-control{
 		height: 40px;
 		box-shadow: none;
@@ -214,17 +223,38 @@ html {
 .leftMenu{
     margin-top: 25px;
 }
-.middleDiv{
-    border-color: #00f;
+.middleContainer{
+    width: 100%;
+    min-height:100%;
+}
+.innerMiddleDiv{
+
     border-style: solid;
 flex-wrap: wrap;
-
+text-align: center;
+float:left;
+height:100%;
+}
+.friendTable{
+    margin: auto;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+.rightFloat{
+    float: left;
+    border-style: solid;
+    flex-wrap: wrap;
+    min-height: 100%;
+    max-width: 500px;
 }
 .messageForm{
-    border-color: #00f;
-    border-style: solid;
-    z-index:5;
-    position: absolute;
-    min-width:350px;
-
+    margin:auto;
+}
+.public-key{
+    min-width: 600px;
+    min-height: 300px;
+}
+.private-key{
+    min-width: 600px;
+    min-height: 300px;
 }

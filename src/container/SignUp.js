@@ -1,5 +1,7 @@
 import React from 'react'
-
+import SignUpPageOne from '../component/SignUpPageOne'
+import SignUpPageTwo from '../component/SignUpPageTwo'
+import SignUpPageThree from '../component/SignUpPageThree'
 class SignUp extends React.Component{
 //need to fill stringify body
 state = {
@@ -7,58 +9,53 @@ state = {
     email: "",
     password: "",
     first_name:"",
-    last_name:""
+    last_name:"",
+    pageNum: 1,
+    pub_key: ""
 }
+pageHandler = (data, x) => {
+    if (this.state.pageNum === 1){
+        //set state of userinfo
+        this.setState({
+            username: data.username,
+            email: data.email,
+            password: data.password,
+            first_name: data.first_name,
+            last_name:data.last_name,
+            pageNum: 2})
+    }
+    if (this.state.pageNum === 2){
+        //set state of pgp keys
+        this.setState({
+            pub_key:data,
+            pageNum:3
+        })
+    }
 
-    handleChange = (e) => {
-    e.preventDefault()
-    // get some value from the event and save it to state
-    // setState
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
+}
+submitHandler = (e) =>{
+    this.props.createAccount(this.state,e)
 
+}
+signUpPageRender = () =>{
+    switch(this.state.pageNum){
+        case 1:
+        return <SignUpPageOne pageHandler = {this.pageHandler}/>
+        break
+        case 2:
+        return <SignUpPageTwo  pageHandler = {this.pageHandler} user = {this.state} />
+        break
+        case 3:
+        return <SignUpPageThree  submitHandler = {this.submitHandler}/>
+        break
+
+    }
+}
     render(){
-
-                return (
-                <div className="signup-form">
-                    <form onSubmit={(e) => this.props.createAccount(this.state, e)} onChange = {this.handleChange}>
-                        <h2>Register</h2>
-                        <p className="hint-text">Create your account. It's free and only takes a minute.</p>
-                        <div className="form-group">
-                            <div className="row">
-                                <div className="col-xs-6">
-                                    <input type="text" className="form-control"
-                                     placeholder="First Name" required="required" name = "first_name"
-                                      value = {this.state.first_name} >
-                                     </input>
-                                </div>
-                                <div className="col-xs-6">
-                                    <input type="text" className="form-control" name = "last_name"  placeholder="Last Name" required="required"
-                                    value= {this.state.last_name}/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <input type="text" className="form-control" name="username" placeholder="Username" required="required"
-                            value= {this.state.username} />
-                        </div>
-                        <div className="form-group">
-                            <input type="email" className="form-control" name="email" placeholder="Email" required="required"
-                            value= {this.state.email}/>
-                        </div>
-                        <div className="form-group">
-                            <input type="password" className="form-control" name="password" placeholder="Password" required="required"
-                            value= {this.state.password} />
-                        </div>
-                        <div className="form-group">
-                            <button type="submit" className="btn btn-success btn-lg btn-block">Register Now</button>
-                        </div>
-                    </form>
-                    <div className="text-center">Already have an account?</div>
-                </div>
-                )
+        console.log(this.state)
+        return (
+            this.signUpPageRender()
+        )
 
     }
 }

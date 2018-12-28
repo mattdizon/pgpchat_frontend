@@ -13,13 +13,15 @@ class UserSearchForm extends React.Component{
         .then(userList => (this.setState({userList})))
     }
 
-    sendRequest = (name, id) =>{
+    sendRequest = (name, id, key) =>{
         fetch('http://localhost:3000/friendships',{
             method: "POST",
             body: JSON.stringify({
                 user_id: this.props.userObj.id,
                 friend_id: id,
-                friend_name: name
+                friend_name: name,
+                friend_public_key: key,
+                user_public_key:this.props.userObj.public_key
 
             }),
             headers: {
@@ -31,7 +33,9 @@ class UserSearchForm extends React.Component{
             body: JSON.stringify({
                 user_id: id,
                 friend_id: this.props.userObj.id,
-                friend_name: this.props.userObj.username
+                friend_name: this.props.userObj.username,
+                friend_public_key: this.props.userObj.public_key,
+                user_public_key:key
             }),
             headers: {
                 'Content-Type': 'application/json'

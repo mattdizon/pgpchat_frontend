@@ -19,7 +19,7 @@ class Friends extends React.Component{
     renderShowMessagetoFriendForm = () =>{
         return (
             <div>
-                <MessageForm friendObj = {this.state.messageFriend}/>
+                <MessageForm friendObj = {this.state.messageFriend} user = {this.props.userObj.username}/>
             </div>
         )
     }
@@ -27,19 +27,24 @@ class Friends extends React.Component{
 
 
     render() {
+        console.log(this.props)
         return (
-            <div className = "middleDiv">
+        <div className = "middleContainer">
+            <div className = "innerMiddleDiv">
                 <h1 onClick = {this.props.test}>Friends List</h1>
-                <table>
+                <table className = "friendTable">
                     <tbody>
                             {this.renderFriend()}
                     </tbody>
                 </table>
-                <div className = "messageForm">
-                {this.state.shouldShowMessageToFriendForm && this.renderShowMessagetoFriendForm()}
-                </div>
 
-            </div>)
+
+            </div>
+            <div className = "messageForm">
+            {this.state.shouldShowMessageToFriendForm && this.renderShowMessagetoFriendForm()}
+            </div>
+        </div>
+        )
     }
 }
 export default Friends
